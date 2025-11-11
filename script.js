@@ -13,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化应用点击事件
     initAppClickEvents();
     
-    // 初始化快捷设置点击事件
-    initQuickSettingsEvents();
-    
     // 初始化搜索功能
     initSearchFunctionality();
     
@@ -224,32 +221,6 @@ function initAppClickEvents() {
             }, 500);
         });
     });
-}
-
-// 初始化快捷设置点击事件
-function initQuickSettingsEvents() {
-    const qsItems = document.querySelectorAll('.qs-item');
-    
-    qsItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const qsName = this.querySelector('span').textContent;
-            toggleQuickSetting(qsName, this);
-        });
-    });
-}
-
-// 切换快捷设置状态
-function toggleQuickSetting(qsName, element) {
-    const qsIcon = element.querySelector('.qs-icon');
-    const isActive = qsIcon.style.opacity === '1';
-    
-    if (isActive) {
-        qsIcon.style.opacity = '0.5';
-        showNotification(`${qsName} 已关闭`);
-    } else {
-        qsIcon.style.opacity = '1';
-        showNotification(`${qsName} 已开启`);
-    }
 }
 
 // 初始化搜索功能
