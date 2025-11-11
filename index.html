@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>安卓系统 PWA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- 壁纸容器 -->
+    <div class="wallpaper-container" id="wallpaper">
+        <div class="wallpaper-overlay"></div>
+    </div>
+
+    <!-- 状态栏 -->
+    <div class="status-bar">
+        <div class="status-left">
+            <span class="time" id="current-time">12:00</span>
+        </div>
+        <div class="status-right">
+            <div class="signal-indicator"></div>
+            <div class="wifi-indicator"></div>
+            <div class="battery-indicator">
+                <div class="battery-level"></div>
+            </div>
+            <div class="battery-percentage" id="battery-percentage">75%</div>
+        </div>
+    </div>
+
+    <!-- 主屏幕容器 -->
+    <div class="main-container">
+        <!-- 大号时间栏 -->
+        <div class="time-display">
+            <div class="time-hours" id="time-hours">12</div>
+            <div class="time-separator">:</div>
+            <div class="time-minutes" id="time-minutes">00</div>
+        </div>
+        <div class="date-display" id="date-display">2024年7月10日 星期三</div>
+
+        <!-- 应用网格 -->
+        <div class="app-grid">
+            <!-- 第一行应用 -->
+            <div class="app-item" data-app-name="聊天">
+                <div class="app-icon chat-icon"></div>
+                <span class="app-name">聊天</span>
+            </div>
+            <div class="app-item" data-app-name="联系人">
+                <div class="app-icon contacts-icon"></div>
+                <span class="app-name">联系人</span>
+            </div>
+            <div class="app-item" data-app-name="朋友圈">
+                <div class="app-icon moments-icon"></div>
+                <span class="app-name">朋友圈</span>
+            </div>
+            <div class="app-item" data-app-name="记忆">
+                <div class="app-icon memory-icon"></div>
+                <span class="app-name">记忆</span>
+            </div>
+            
+            <!-- 第二行应用 -->
+            <div class="app-item" data-app-name="钱包">
+                <div class="app-icon wallet-icon"></div>
+                <span class="app-name">钱包</span>
+            </div>
+            <div class="app-item" data-app-name="商城">
+                <div class="app-icon store-icon"></div>
+                <span class="app-name">商城</span>
+            </div>
+            <div class="app-item" data-app-name="音乐">
+                <div class="app-icon music-icon"></div>
+                <span class="app-name">音乐</span>
+            </div>
+            <div class="app-item" data-app-name="相册">
+                <div class="app-icon gallery-icon"></div>
+                <span class="app-name">相册</span>
+            </div>
+            
+            <!-- 第三行应用 -->
+            <div class="app-item" data-app-name="地图">
+                <div class="app-icon maps-icon"></div>
+                <span class="app-name">地图</span>
+            </div>
+            <div class="app-item" data-app-name="天气">
+                <div class="app-icon weather-icon"></div>
+                <span class="app-name">天气</span>
+            </div>
+            <div class="app-item" data-app-name="计算器">
+                <div class="app-icon calculator-icon"></div>
+                <span class="app-name">计算器</span>
+            </div>
+            <div class="app-item" data-app-name="设置">
+                <div class="app-icon settings-icon"></div>
+                <span class="app-name">设置</span>
+            </div>
+        </div>
+
+        <!-- 快捷设置面板 -->
+        <div class="quick-settings" id="quick-settings">
+            <div class="qs-item">
+                <div class="qs-icon wifi-qs"></div>
+                <span>Wi-Fi</span>
+            </div>
+            <div class="qs-item">
+                <div class="qs-icon bluetooth-qs"></div>
+                <span>蓝牙</span>
+            </div>
+            <div class="qs-item">
+                <div class="qs-icon flashlight-qs"></div>
+                <span>手电筒</span>
+            </div>
+            <div class="qs-item">
+                <div class="qs-icon battery-qs"></div>
+                <span>电池</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 应用打开遮罩 -->
+    <div class="app-overlay" id="app-overlay">
+        <div class="app-container">
+            <div class="app-header">
+                <div class="app-back-btn"></div>
+                <span class="app-title"></span>
+            </div>
+            <div class="app-content">
+                <p>应用正在加载中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
