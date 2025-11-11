@@ -208,6 +208,11 @@ function initAppClickEvents() {
     const appOverlay = document.getElementById('app-overlay');
     const appTitle = document.querySelector('.app-title');
     
+    if (!appItems || !appOverlay || !appTitle) {
+        console.error('应用元素未找到');
+        return;
+    }
+    
     appItems.forEach(item => {
         item.addEventListener('click', function() {
             const appName = this.getAttribute('data-app-name');
@@ -217,8 +222,32 @@ function initAppClickEvents() {
             // 模拟应用加载
             setTimeout(() => {
                 const appContent = document.querySelector('.app-content');
-                appContent.innerHTML = `<p>${appName} 应用正在运行中...</p>`;
-            }, 500);
+                if (appContent) {
+                    appContent.innerHTML = `<p>${appName} 应用正在运行中...</p>`;
+                }
+                
+                // 重新初始化返回按钮，确保事件绑定正确
+                initBackButton();
+            }, 100);
+        });
+        
+        // 添加触摸事件支持
+        item.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            const appName = this.getAttribute('data-app-name');
+            appTitle.textContent = appName;
+            appOverlay.style.display = 'flex';
+            
+            // 模拟应用加载
+            setTimeout(() => {
+                const appContent = document.querySelector('.app-content');
+                if (appContent) {
+                    appContent.innerHTML = `<p>${appName} 应用正在运行中...</p>`;
+                }
+                
+                // 重新初始化返回按钮，确保事件绑定正确
+                initBackButton();
+            }, 100);
         });
     });
 }
@@ -259,15 +288,18 @@ function performSearch(searchTerm) {
     setTimeout(() => {
         appContent.innerHTML = `
             <div style="width: 80%; max-width: 400px;">
-                <h3 style="margin-bottom: 15px; color: #ffffff;">搜索结果</h3>
+                <h3 style="margin-bottom: 15px; color: #333;">搜索结果</h3>
                 <p style="margin-bottom: 10px;">找到与 "${searchTerm}" 相关的内容:</p>
                 <ul style="list-style-type: none; padding: 0;">
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">应用: ${searchTerm}</li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">联系人: ${searchTerm}</li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">设置: ${searchTerm}</li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">应用: ${searchTerm}</li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">联系人: ${searchTerm}</li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1);">设置: ${searchTerm}</li>
                 </ul>
             </div>
         `;
+        
+        // 重新初始化返回按钮，确保事件绑定正确
+        initBackButton();
     }, 500);
     
     // 清空搜索框
@@ -279,9 +311,33 @@ function initBackButton() {
     const backButton = document.querySelector('.app-back-btn');
     const appOverlay = document.getElementById('app-overlay');
     
-    backButton.addEventListener('click', function() {
+    console.log('初始化返回按钮', backButton, appOverlay);
+    
+    if (backButton && appOverlay) {
+        // 移除之前的事件监听器（如果存在）
+        backButton.removeEventListener('click', hideAppOverlay);
+        backButton.removeEventListener('touchstart', hideAppOverlay);
+        
+        // 添加新的事件监听器
+        backButton.addEventListener('click', hideAppOverlay);
+        backButton.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            hideAppOverlay();
+        });
+        
+        console.log('返回按钮事件绑定成功');
+    } else {
+        console.error('返回按钮或应用遮罩层未找到');
+    }
+}
+
+// 隐藏应用遮罩层的函数
+function hideAppOverlay() {
+    const appOverlay = document.getElementById('app-overlay');
+    if (appOverlay) {
         appOverlay.style.display = 'none';
-    });
+        console.log('应用遮罩层已隐藏');
+    }
 }
 
 // 更新电池状态（模拟）
@@ -407,15 +463,18 @@ function showAppOptions(appName) {
     appTitle.textContent = appName;
     appContent.innerHTML = `
         <div style="width: 80%; max-width: 400px;">
-            <h3 style="margin-bottom: 15px; color: #ffffff;">应用选项</h3>
+            <h3 style="margin-bottom: 15px; color: #333;">应用选项</h3>
             <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button style="padding: 12px; background-color: rgba(255, 255, 255, 0.1); border: none; border-radius: 8px; color: white; cursor: pointer;">打开</button>
-                <button style="padding: 12px; background-color: rgba(255, 255, 255, 0.1); border: none; border-radius: 8px; color: white; cursor: pointer;">应用信息</button>
-                <button style="padding: 12px; background-color: rgba(255, 255, 255, 0.1); border: none; border-radius: 8px; color: white; cursor: pointer;">卸载</button>
+                <button style="padding: 12px; background-color: rgba(0, 0, 0, 0.1); border: none; border-radius: 8px; color: #333; cursor: pointer;">打开</button>
+                <button style="padding: 12px; background-color: rgba(0, 0, 0, 0.1); border: none; border-radius: 8px; color: #333; cursor: pointer;">应用信息</button>
+                <button style="padding: 12px; background-color: rgba(0, 0, 0, 0.1); border: none; border-radius: 8px; color: #333; cursor: pointer;">卸载</button>
             </div>
         </div>
     `;
     appOverlay.style.display = 'flex';
+    
+    // 重新初始化返回按钮，确保事件绑定正确
+    initBackButton();
 }
 
 // 添加屏幕方向变化监听
